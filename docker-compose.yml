@@ -1,0 +1,15 @@
+version: '2'
+services:
+  userapp:
+    restart: always
+    build: user/
+    ports:
+      - "3001:3000"
+    links:
+      - mongo_user_db
+  mongo_user_db:
+    image: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - /data/db:/user/data
