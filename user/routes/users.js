@@ -5,14 +5,35 @@ var users = require('../database/users')
 /* GET users listing. */
 router.get('/', function(req, res, next) {
   users.get({}, (err, users) => {
+    if (err) {
+      res.status(404);
+      return res.json({'msg': "Users not found"})
+    }
     res.json({users: users});
+  })
+});
+
+/* GET one user by id in url. */
+router.get('/:user_id', function(req, res, next) {
+  users.get({ '_id': req.params.user_id }, (err, users) => {
+    if (err || !users || !users.length) {
+      res.status(404);
+      return res.json({'msg': "Users not found"})
+    }
+    res.json({user: users[0]});
   })
 });
 
 /* CREATE user */
 router.post('/', function(req, res, next) {
-  users.insert(req.query, (err, result) => {
-    res.json({result: result});
+  console.log(req.body)
+  console.log(req)
+  users.insert(req.body, (err, inserted_user) => {
+    if (err) {
+      res.status(422);
+      return res.json({ 'err': err })
+    }
+    res.json({user: inserted_user});
   })
 });
 

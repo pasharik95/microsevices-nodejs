@@ -38,12 +38,27 @@ var users = {
     //  - done - callback function 
     insert: (info, done) => {
         var collection = this.db.collection('users');
-        collection.insert(info, (err, result) => {
+
+        var user = {};
+        var errors = [];
+        for(field in user_schema) {
+            if (!info[field]) {
+                errors.push({'field': field, 'msg': "There is not this field"})
+            } else {
+                user[field] = info[field];
+            }
+        }
+
+        if (errors.length) {
+            return done(errors);
+        }
+
+        collection.insert(user, (err, result) => {
             if (err) {
                 return done(err);
             }
 
-            done(null, result);
+            done(null, user);
         })
     },
 
@@ -77,10 +92,10 @@ var users = {
 }
 
 var user_schema = {
-    username: "str",
-    first_name: "str",
-    last_name: "str",
-    password: "str"
+    username: "",
+    first_name: "",
+    last_name: "",
+    phone: ""
 }
 
 module.exports = users
