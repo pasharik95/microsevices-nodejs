@@ -65,6 +65,24 @@ router.delete('/:user_id', function(req, res, next) {
   })
 });
 
+router.put('/:user_id', function(req, res, next) {
+  req.body['id'] = req.params.user_id;
+  users.update(req.body, (err, result) => {
+    if (err) {
+      res.status(422);
+      return res.json({ 'err': err })
+    }
+
+    if (!result.nModified) {
+      res.status(404);
+      return res.json({ 'msg': "User was not found" });
+    }
+    users.get({ '_id': req.params.user_id }, (err, users) => {
+      res.json({user: users[0]});
+    })
+  })
+});
+
 
 
 module.exports = router;

@@ -86,7 +86,39 @@ var users = {
     //  - info - object with data of updated user
     //  - done - callback function 
     update: (info, done) => {
+        var errors = [];
 
+        if (!info || !info.id) {
+            errors.push({ 'filed': "id", msg: "There is not id of user"})
+        } else {
+            info.id = common.toObjectID(info.id);
+            if (!info.id) {
+                errors.push({ 'filed': "id", msg: "ID is not valid format"})
+            }
+        }
+
+        
+        var user = {}
+        for(field in user_schema) {
+            if (!info[field]) {
+                errors.push({'field': field, 'msg': "There is not this field"})
+            } else {
+                user[field] = info[field];
+            }
+        }
+
+        if (errors.length) {
+            return done(errors)
+        }
+
+        var collection = this.db.collection('users');
+        collection.update({'_id': info.id }, { '$set': user }, (err, result) => {
+            console.log(result)
+            if (err) {
+                return done(err);
+            }
+            done(null, result.result);
+        })
     }
 
 }
