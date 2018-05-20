@@ -4,4 +4,6 @@
 docker-compose up -d --build
 
 # Start gateway
-cd gateway && npm start -&
+cd gateway
+npm install
+npm start -&
