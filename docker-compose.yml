@@ -19,6 +19,8 @@ services:
       - "3001:3000"
     links:
       - mongo_user_db
+    labels:
+      - api_route=/users/
   bookapp:
     restart: always
     build: book/
@@ -26,3 +28,5 @@ services:
       - "3002:3000"
     links:
       - pg_book_db
+    labels:
+      - api_route=/books/
