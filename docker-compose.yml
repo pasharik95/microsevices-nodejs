@@ -20,7 +20,7 @@ services:
     links:
       - mongo_user_db
     labels:
-      - api_route=/users/
+      - api_route=/api/v1/users/
   bookapp:
     restart: always
     build: book/
@@ -29,4 +29,4 @@ services:
     links:
       - pg_book_db
     labels:
-      - api_route=/books/
+      - api_route=/api/v1/books/
