@@ -26,8 +26,6 @@ router.get('/:user_id', function(req, res, next) {
 
 /* CREATE user */
 router.post('/', function(req, res, next) {
-  console.log(req.body)
-  console.log(req)
   users.insert(req.body, (err, inserted_user) => {
     if (err) {
       res.status(422);

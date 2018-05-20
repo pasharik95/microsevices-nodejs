@@ -21,9 +21,6 @@ var users = {
         
         var collection = this.db.collection('users');
         collection.find(info).toArray((err, users) => {
-
-            logger.info("ERROR", err)
-            logger.info("USERS", users)
             if (err) {
                 return done(err);
             }
